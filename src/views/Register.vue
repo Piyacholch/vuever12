@@ -2,57 +2,137 @@
   <div class="all">
     <div class="container" id="container">
       <div class="form-container sign-in-container">
-        <form action="#" @submit.prevent="login">
-          <h1>เข้าสู่ระบบ</h1>
+        <form action="#" @submit.prevent="register">
+          <h1>สมัครสมาชิก</h1>
 
+          <div class="row">
+            <div class="col-12">
+              <div id="GooglerSingIn" v-if="!isSignedIn">
+                <button
+                  @click="handleSignInGoogle"
+                  type="button"
+                  class="btn btn-primary btn-sm"
+                >
+                  <i class="fab fa-google-plus-g" @click="handleSignInGoogle"
+                    >G</i
+                  >
+                  Login with Google
+                </button>
+              </div>
+            </div>
+          </div>
 
-          <input type="email" placeholder="Email" v-model="login_form.email" />
+          <p class="mt-2">หรือใช้บัญชีของคุณ</p>
+
+          <!-- <div id="GooglerSingIn" v-if="!isSignedIn">
+            <h3>Google Signin</h3>
+            <button @click="handleSignInGoogle">Google</button>
+          </div> -->
+
+          <input type="text" placeholder="Name" v-model="register_form.name" />
+
+          <input
+            type="email"
+            placeholder="Email"
+            v-model="register_form.email"
+          />
           <input
             type="password"
             placeholder="Password"
-            v-model="login_form.password"
+            v-model="register_form.password"
           />
           <div v-show="error" class="error">{{ this.errorMsg }}</div>
-          <a href="/forgotpassword" class="a_fg_text">ลืมรหัสผ่าน?</a>
-
-          <input type="submit" value="Login" />
+        
+          <input type="submit" value="Register" class="mt-3"/>
         </form>
       </div>
 
       <div class="overlay-container">
         <div class="overlay">
           <div class="overlay-panel overlay-right">
-            <h1>สวัสดี, ยินดีต้อนรับ!</h1>
-            <p>กรอกข้อมูลของคุณแล้วมาเริ่มต้นไปดวยกันเถอะ!</p>
-            <a href="/register"><button class="ghost">สมัครสมาชิก</button></a>
+            <h1>สวัสดี, ยินดีต้อนรับกลับ!</h1>
+            <p>กรอกข้อมูลของคุณแล้วมาผ่อนคลายกันเถอะ!</p>
+            <a href="/login"><button class="ghost">เข้าสู่ระบบ</button></a>
           </div>
         </div>
       </div>
     </div>
   </div>
 </template>
-  
-  <script>
+
+
+<script>
+import firebase from "../firebase";
 import { ref } from "vue";
 import { useStore } from "vuex";
+import {
+  getAuth,
+  signInWithPopup,
+  GoogleAuthProvider,
+  // FacebookAuthProvider,
+  // getRedirectResult
+} from "firebase/auth";
+
+firebase;
+
+const provider = new GoogleAuthProvider();
+const auth = getAuth();
 
 export default {
   setup() {
-    const login_form = ref({});
+    const register_form = ref({});
     const store = useStore();
-    const login = () => {
-      store.dispatch("login", login_form.value);
+
+    const register = () => {
+      store.dispatch("register", register_form.value);
     };
 
     return {
-      login_form,
-      login,
+      register_form,
+      register,
     };
+  },
+  data() {
+    return {
+      user: "",
+    };
+  },
+  methods: {
+    handleSignInGoogle() {
+      signInWithPopup(auth, provider)
+        .then((result) => {
+          // const user = result.user;
+
+          console.log(result.user.displayName);
+
+          this.user = result.user.displayName;
+          this.isSignedIn = true;
+          this.$router.push("/");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    // handleSignFacebook() {
+    //   signInWithPopup(auth, providered)
+    //     .then((result) => {
+    //       // The signed-in user info.
+    //       // const user = result.user;
+    //       console.log(result.user.displayName);
+    //       this.user = result.user.displayName;
+    //       this.isSignedInFacebook = true;
+    //       this.$router.push("/");
+    //       // ...
+    //     })
+    //     .catch((error) => {
+    //       console.log(error);
+    //     });
+    // },
   },
 };
 </script>
-  
-  <style>
+
+<style>
 @import url("https://fonts.googleapis.com/css2?family=Kanit:wght@300&display=swap");
 * {
   font-family: "Kanit", sans-serif;
@@ -303,165 +383,4 @@ footer a {
   color: #3c97bf;
   text-decoration: none;
 }
-@media (max-width: 720px) {
-  body {
-    padding: 0px;
-  }
-}
 </style>
-
-
-
-
-
-<!-- <template>
-	<main class="login">
-		<section class="forms">
-
-			<form class="register" @submit.prevent="register">
-				<h2>Register</h2>
-				<input 
-					type="email" 
-					placeholder="Email address"
-					v-model="register_form.email" />
-				<input 
-					type="password" 
-					placeholder="Password" 
-					v-model="register_form.password" />
-				<input 
-					type="submit" 
-					value="Register" />
-			</form>
-
-			<form class="login" @submit.prevent="login">
-				<h2>Login</h2>
-				<input 
-					type="email" 
-					placeholder="Email address"
-					v-model="login_form.email" />
-				<input 
-					type="password" 
-					placeholder="Password" 
-					v-model="login_form.password" />
-				<input 
-					type="submit" 
-					value="Login" />
-			</form>
-
-		</section>
-	</main>
-</template>
-
-<script>
-import { ref } from 'vue'
-import { useStore } from 'vuex'
-
-export default {
-	setup () {
-		const login_form = ref({});
-		const register_form = ref({});
-		const store = useStore();
-
-		const login = () => {
-			store.dispatch('login', login_form.value);
-		}
-
-		const register = () => {
-			store.dispatch('register', register_form.value);
-		}
-
-		return {
-			login_form,
-			register_form,
-			login,
-			register
-		}
-	}
-}
-</script>
-
-<style>
-.forms {
-	display: flex;
-	min-height: 100vh;
-}
-
-form {
-	flex: 1 1 0%;
-	padding: 8rem 1rem 1rem;
-}
-
-form.register {
-	color: #FFF;
-	background-color: rgb(245, 66, 101);
-	background-image: linear-gradient(
-		to bottom right,
-		rgb(245, 66, 101) 0%,
-		rgb(189, 28, 60) 100%
-	);
-}
-
-h2 {
-	font-size: 2rem;
-	text-transform: uppercase;
-	margin-bottom: 2rem;
-}
-
-input {
-	appearance: none;
-	border: none;
-	outline: none;
-	background: none;
-
-	display: block;
-	width: 100%;
-	max-width: 400px;
-	margin: 0 auto;
-	font-size: 1.5rem;
-	margin-bottom: 2rem;
-	padding: 0.5rem 0rem;
-}
-
-input:not([type="submit"]) {
-	opacity: 0.8;
-	transition: 0.4s;
-}
-
-input:focus:not([type="submit"]) {
-	opacity: 1;
-}
-
-input::placeholder {
-	color: inherit;
-}
-
-form.register input:not([type="submit"]) {
-	color: #FFF;
-	border-bottom: 2px solid #FFF;
-}
-
-form.login input:not([type="submit"]) {
-	color: #2c3e50;
-	border-bottom: 2px solid #2c3e50;
-}
-
-form.login input[type="submit"] {
-	background-color: rgb(245, 66, 101);
-	color: #FFF;
-	font-weight: 700;
-	padding: 1rem 2rem;
-	border-radius: 0.5rem;
-	cursor: pointer;
-	text-transform: uppercase;
-}
-
-form.register input[type="submit"] {
-	background-color: #FFF;
-	color: rgb(245, 66, 101);
-	font-weight: 700;
-	padding: 1rem 2rem;
-	border-radius: 0.5rem;
-	cursor: pointer;
-	text-transform: uppercase;
-}
-</style> -->
