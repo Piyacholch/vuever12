@@ -26,6 +26,7 @@ import assistance from '../views/assistance.vue'
 import forgotpassword from '../views/forgotPassword.vue'
 import replymessage from '../views/reply_message.vue'
 import Register from '../views/Register.vue'
+import help from '../views/help.vue'
 //Chat
 import chatopen from '../views/chat/chatopen.vue'
 import chatpositive from '../views/chat/chatpositive.vue'
@@ -166,6 +167,11 @@ const routes = [
     path: '/forgotpassword',
     name: 'forgotpassword',
     component: forgotpassword
+  },
+  {
+    path: '/help',
+    name: 'help',
+    component: help
   },
 
     /////////////  CHAT   ///////////

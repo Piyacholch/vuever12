@@ -41,12 +41,12 @@
           :key="index"
         >
           <!-- <div class="col-1">{{ item.id }}</div> -->
-          <div class="col-8">{{ item.Name }}</div>
+          <div class="col-8">{{ item.title }}</div>
           <div class="col-3">
             <button
               type="button"
               class="btn btn-outline-primary edit"
-              @click="$router.push(`/updateActivity/${item.id}/${item.Name}/${item.Website}/${item.Description}`)"
+              @click="$router.push(`/updateActivity/${item.id}/${item.title}/${item.description}`)"
             >
               แก้ไข
             </button>
@@ -130,7 +130,7 @@
         loaddata: [],
         id: "",
         search: "",
-        Name: "",
+        title: "",
       };
     },
     mounted() {

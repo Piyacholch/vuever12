@@ -91,7 +91,6 @@
 </template>
     
 <script>
-import { getAuth} from "firebase/auth";
 import axios from "axios";
 import Navbar from "../../components/Navbar.vue";
 
@@ -134,19 +133,7 @@ export default {
       this.data.Website = "";
       
     },
-    },
-    async Getemailuser() { //อันนี้ออกทาง console log
-      const auth = getAuth();
-      const user = auth.currentUser;
-      if (user !== null) {
-        const email = user.email;
-        const displayName = user.displayName;
-        const photoURL = user.photoURL;
-        const emailVerified = user.emailVerified;
-        console.log(email, displayName,emailVerified, photoURL);
-       
-        
-      }
+    
     },
   created() {
     
