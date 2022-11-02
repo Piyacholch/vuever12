@@ -27,6 +27,7 @@ import forgotpassword from '../views/forgotPassword.vue'
 import replymessage from '../views/reply_message.vue'
 import Register from '../views/Register.vue'
 import help from '../views/help.vue'
+import about from '../views/About.vue'
 //Chat
 import chatopen from '../views/chat/chatopen.vue'
 import chatpositive from '../views/chat/chatpositive.vue'
@@ -45,10 +46,8 @@ const routes = [
   {
     path: '/about',
     name: 'About',
-    component: () => import('../views/About.vue'),
-    meta: {
-      requiresAuth: true
-    }
+    component: about
+    
   },
   {
     path: '/login',

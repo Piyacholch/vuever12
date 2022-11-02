@@ -4,7 +4,8 @@ import router from './router'
 import store from './store'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
-
+import '..//bootstrap-5.1.3-dist/css/bootstrap.min.css'
+import 'bootstrap'
 
 
 

@@ -56,10 +56,11 @@
             class="btn btn-outline-danger delete"
             data-bs-toggle="modal"
             data-bs-target="#exampleModal"
-            @click="confirmdeletezone(item.id)"
+            @click="deletechat(item.id)"
           >
             ลบ
           </button>
+          
           <!-- <button type="button" class="btn btn-outline-danger delete"
           @click="deletechat(item.id)">
                 ลบ

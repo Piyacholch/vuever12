@@ -9,14 +9,14 @@
     <span class="email">{{ email }}</span> <br />
 
 
-    <!-- Form ปลี่ยนชื่อ+รูป -->
+   <!--  Form ปลี่ยนชื่อ+รูป -->
     <!-- <form>
  
       <input type="text" v-model="ChangedisplayName" id="inputChangeName" />
      
       <input type="text" v-model="ChangephotoURL" id="inputChangeName" />
       <button @click="UpdateUser()">submit</button>
-    </form> -->
+    </form>  -->
 
     <!-- Form ปลี่ยนชื่อ+รูป -->
 
@@ -102,12 +102,9 @@ export default {
       const auth = getAuth();
       const user = auth.currentUser;
       if (user !== null) {
-        // The user object has basic properties such as display name, email, etc.
-        const displayName = user.displayName;
-        const email = user.email;
-        const photoURL = user.photoURL;
-        const uid = user.uid;
-        console.log(displayName, email, photoURL, uid);
+       
+
+        console.log(user);
       }
     },
     UpdateUser() {
@@ -115,7 +112,7 @@ export default {
      
       const user = auth.currentUser;
       if (user !== null) {
-        // The user object has basic properties such as display name, email, etc.
+   
         updateProfile(auth.currentUser, {
           displayName: this.ChangedisplayName,
           photoURL: this.ChangephotoURL,
@@ -132,7 +129,7 @@ export default {
 
       axios
         .post(
-          "http://localhost:5050/inserttest/" +
+          "http://localhost:5050/insertadmin/" +
           email +
             "/" +
             Name +
@@ -146,9 +143,9 @@ export default {
         });
     },
     reset() {
-      this.data.displayName = "";
-      this.data.Description = "";
-      this.data.Website = "";
+
+      this.data.Name = "";
+      this.data.Address = "";
       
     },
   },
@@ -158,6 +155,7 @@ export default {
 
     const auth = getAuth();
     const user = auth.currentUser;
+    this.uid = user.uid;
     this.email = user.email;
     this.displayName = user.displayName;
     this.photoURL = user.photoURL;
@@ -166,6 +164,9 @@ export default {
 </script>
 
 <style>
+.form-control{
+  width: 30%;
+}
 .photoURL {
   width: 100px;
   height: 100px;
